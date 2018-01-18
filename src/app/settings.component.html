@@ -1,0 +1,73 @@
+<div class="full-height" fxLayout="column" fxLayoutAlign="start start">
+    <div>
+        <button mat-raised-button color="primary" (click)="back()">
+    <mat-icon>arrow_back</mat-icon>
+    Retour
+  </button>
+    </div>
+    <div>
+        <h1 class="mat-title">{{ "familles" | uppercase }}</h1>
+        <mat-table #familleTable [dataSource]="familleDataSource" class="mat-elevation-z1" style="width:780px">
+            <ng-container matColumnDef="{{ displayedFamilleColumns[0] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "id" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.id }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedFamilleColumns[1] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "nom" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.nom}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedFamilleColumns[2] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "couleur" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> <span class="capitalize">{{row.couleur}} </span> </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedFamilleColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedFamilleColumns"></mat-row>
+        </mat-table>
+    </div>
+    <div>
+        <h1 class="mat-title">{{ "étudiants m1" | uppercase }}</h1>
+        <mat-table #tableM1 [dataSource]="etudiantM1DataSource" class="mat-elevation-z1" style="width:780px">
+            <ng-container matColumnDef="{{ displayedEtudiantM1Columns[0] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "id" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.id }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM1Columns[1] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "nom" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.nom }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM1Columns[2] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "sexe" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> <span class="capitalize">{{ row.sexe | sexeToString }} </span> </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedEtudiantM1Columns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedEtudiantM1Columns"></mat-row>
+        </mat-table>
+    </div>
+    <div>
+        <h1 class="mat-title">{{ "étudiants m2" | uppercase }}</h1>
+        <mat-table #tableM2 [dataSource]="etudiantM2DataSource" class="mat-elevation-z1" style="width:900px">
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[0] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "id" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.id }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[1] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "nom" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.nom }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[2] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "atelier" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.atelier }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[3] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "famille" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.famille | familyToString }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[4] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "sexe" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> <span class="capitalize">{{ row.sexe | sexeToString }} </span> </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedEtudiantM2Columns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedEtudiantM2Columns"></mat-row>
+        </mat-table>
+    </div>
+</div>
