@@ -9,14 +9,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 
 import { StorageService } from '../services/storage.service';
-import { FamilleService } from '../services/famille.service';
-import { EtudiantM1Service } from '../services/etudiant-m1.service';
-import { EtudiantM2Service } from '../services/etudiant-m2.service';
+import { GameService } from '../services/game.service';
 
 import { AppComponent } from './app.component';
 import { AccueilComponent } from './accueil.component';
 import { MainComponent } from './main.component';
+import { NextPlayerComponent } from './next-player.component';
 import { SettingsComponent } from './settings.component';
+import { ResultComponent } from './result.component';
 import { PageNotFoundComponent } from './page-not-found.component';
 import { FamilyToStringPipe } from './family-to-string.pipe';
 import { SexeToStringPipe } from './sexe-to-string.pipe';
@@ -27,12 +27,20 @@ const appRoutes: Routes = [
     component: AccueilComponent
   },
   {
+    path: 'next',
+    component: NextPlayerComponent 
+  },
+  {
     path: 'main',
     component: MainComponent 
   },
   {
     path: 'parametres',
     component: SettingsComponent 
+  },
+  {
+    path: 'resultats',
+    component: ResultComponent 
   },
   { path: '',
     redirectTo: '/accueil',
@@ -47,7 +55,9 @@ const appRoutes: Routes = [
     PageNotFoundComponent,
     AppComponent,
     AccueilComponent,
+    NextPlayerComponent,
     MainComponent,
+    ResultComponent,
     SettingsComponent,
     FamilyToStringPipe,
     SexeToStringPipe,
@@ -55,7 +65,7 @@ const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true } // <-- debugging purposes only
+      { enableTracing: false } // <-- debugging purposes only
     ),
     BrowserModule,
     BrowserAnimationsModule,
@@ -66,7 +76,7 @@ const appRoutes: Routes = [
     MatIconModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [ StorageService, FamilleService, EtudiantM1Service, EtudiantM2Service ],
+  providers: [ StorageService, GameService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

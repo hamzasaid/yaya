@@ -15,12 +15,4 @@ export class Famille {
     this.couleur = couleur;
   }
 
-  public getJSON(): any {
-    return {
-      id: this.id,
-      nom: this.nom,
-      couleur: this.couleur
-    };
-  }
-
 }

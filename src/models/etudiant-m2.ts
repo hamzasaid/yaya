@@ -23,14 +23,4 @@ export class EtudiantM2 {
 
   public get avatar(): string { return 'M2' + ('00' + this.id).slice(-3); }
 
-  public getJSON(): any {
-    return {
-      id: this.id,
-      nom: this.nom,
-      sexe: this.sexe,
-      atelier: this.atelier,
-      famille: this.famille
-    };
-  }
-
 }

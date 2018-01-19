@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { EtudiantM1 } from '../models/etudiant-m1'
 import { EtudiantM2 } from '../models/etudiant-m2'
 import { Famille } from '../models/famille'
+import { Atelier } from '../models/atelier'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import { AppSettings } from '../app.settings';
 
 const M1List = [
   { id: 1, nom: 'ABDELAZIZE Imaila', sexe: 'M' },
@@ -109,73 +113,98 @@ const FamilleList = [
 @Injectable()
 export class StorageService {
     
-  private GAME_STATUS_KEY : string = 'gamestatus';
-  private CURRENT_M1_KEY : string = 'currentm1';
-  private M1_ARRAY_KEY : string = 'arraym1';
-  private M2_ARRAY_KEY : string = 'arraym2';
-  private FAMILLE_ARRAY_KEY : string = 'arrayfamille';
-  private RESULT_KEY : string = 'arrayresult';
-
   constructor() {
-    if (!this.isInit) {
+    if (!this.isInitialized) {
       this.reset();
     }
   }
 
-  private get isInit(): boolean {
-    return !!localStorage.getItem(this.GAME_STATUS_KEY) 
-      && !!localStorage.getItem(this.CURRENT_M1_KEY)
-      && !!localStorage.getItem(this.RESULT_KEY)
-      && !!localStorage.getItem(this.M1_ARRAY_KEY)
-      && !!localStorage.getItem(this.M2_ARRAY_KEY)
-      && !!localStorage.getItem(this.FAMILLE_ARRAY_KEY);
+  private get isInitialized(): boolean {
+    return !!localStorage.getItem(AppSettings.GAME_STATUS_KEY) 
+      && !!localStorage.getItem(AppSettings.CURRENT_M1_KEY)
+      && !!localStorage.getItem(AppSettings.CURRENT_M2_KEY)
+      && !!localStorage.getItem(AppSettings.ATELIER_KEY)
+      && !!localStorage.getItem(AppSettings.M1BUFFER_ARRAY_KEY)
+      && !!localStorage.getItem(AppSettings.M1_ARRAY_KEY)
+      && !!localStorage.getItem(AppSettings.M2_ARRAY_KEY)
+      && !!localStorage.getItem(AppSettings.FAMILY_ARRAY_KEY);
   }
   
   public get currentM1(): number {
-    return !!localStorage.getItem(this.CURRENT_M1_KEY) ? +localStorage.getItem(this.CURRENT_M1_KEY) : 0;
+    return !!localStorage.getItem(AppSettings.CURRENT_M1_KEY) ? +localStorage.getItem(AppSettings.CURRENT_M1_KEY) : 0;
   }
 
   public set currentM1(indice : number) {
-    localStorage.setItem(this.CURRENT_M1_KEY, JSON.stringify(indice));
+    localStorage.setItem(AppSettings.CURRENT_M1_KEY, JSON.stringify(indice));
+  }
+
+  public get currentM2(): number {
+    return !!localStorage.getItem(AppSettings.CURRENT_M2_KEY) ? +localStorage.getItem(AppSettings.CURRENT_M2_KEY) : 0;
+  }
+
+  public set currentM2(indice : number) {
+    localStorage.setItem(AppSettings.CURRENT_M2_KEY, JSON.stringify(indice));
   }
 
   public get gameStatus() : number {
-    return !!localStorage.getItem(this.GAME_STATUS_KEY) ? +localStorage.getItem(this.GAME_STATUS_KEY) : -1;
+    return !!localStorage.getItem(AppSettings.GAME_STATUS_KEY) ? +localStorage.getItem(AppSettings.GAME_STATUS_KEY) : -1;
   }
 
   public set gameStatus(status : number) {
-    localStorage.setItem(this.GAME_STATUS_KEY, JSON.stringify(status));
+    localStorage.setItem(AppSettings.GAME_STATUS_KEY, JSON.stringify(status));
   }
 
-  public get EtudiantM1List() : EtudiantM1[] {
-    return !!localStorage.getItem(this.M1_ARRAY_KEY) ? JSON.parse(localStorage.getItem(this.M1_ARRAY_KEY)) : [];
+  public get etudiantM1List() : EtudiantM1[] {
+    return !!localStorage.getItem(AppSettings.M1_ARRAY_KEY) ? JSON.parse(localStorage.getItem(AppSettings.M1_ARRAY_KEY)) : [];
   }
 
-  public get EtudiantM2List() : EtudiantM2[] {
-    return !!localStorage.getItem(this.M2_ARRAY_KEY) ? JSON.parse(localStorage.getItem(this.M2_ARRAY_KEY)) : [];
+  public get etudiantM2List() : EtudiantM2[] {
+    return !!localStorage.getItem(AppSettings.M2_ARRAY_KEY) ? JSON.parse(localStorage.getItem(AppSettings.M2_ARRAY_KEY)) : [];
   }
 
-  public get FamilleList() : Famille[] {
-    return !!localStorage.getItem(this.FAMILLE_ARRAY_KEY) ? JSON.parse(localStorage.getItem(this.FAMILLE_ARRAY_KEY)) : [];    
+  public get atelierList() : Atelier[] {
+    return !!localStorage.getItem(AppSettings.ATELIER_KEY) ? JSON.parse(localStorage.getItem(AppSettings.ATELIER_KEY)) : [];
+  }
+
+  public set atelierList(list: Atelier[]) {
+    localStorage.setItem(AppSettings.ATELIER_KEY, JSON.stringify(list));
+  }
+
+  public get bufferList() : number[] {
+    return !!localStorage.getItem(AppSettings.M1BUFFER_ARRAY_KEY) ? JSON.parse(localStorage.getItem(AppSettings.M1BUFFER_ARRAY_KEY)) : [];
+  }
+
+  public set bufferList(list: number[]) {
+    localStorage.setItem(AppSettings.M1BUFFER_ARRAY_KEY, JSON.stringify(list));
+  }
+
+  public get familleList() : Famille[] {
+    return !!localStorage.getItem(AppSettings.FAMILY_ARRAY_KEY) ? JSON.parse(localStorage.getItem(AppSettings.FAMILY_ARRAY_KEY)) : [];    
   }
 
   public reset() : void {
-    localStorage.removeItem(this.CURRENT_M1_KEY);
-    localStorage.removeItem(this.GAME_STATUS_KEY);
-    localStorage.removeItem(this.M1_ARRAY_KEY);
-    localStorage.removeItem(this.M2_ARRAY_KEY);
-    localStorage.removeItem(this.FAMILLE_ARRAY_KEY);
-    localStorage.removeItem(this.RESULT_KEY);
+    localStorage.removeItem(AppSettings.CURRENT_M1_KEY);
+    localStorage.removeItem(AppSettings.CURRENT_M2_KEY);
+    localStorage.removeItem(AppSettings.GAME_STATUS_KEY);
+    localStorage.removeItem(AppSettings.M1BUFFER_ARRAY_KEY);
+    localStorage.removeItem(AppSettings.M1_ARRAY_KEY);
+    localStorage.removeItem(AppSettings.M2_ARRAY_KEY);
+    localStorage.removeItem(AppSettings.FAMILY_ARRAY_KEY);
+    localStorage.removeItem(AppSettings.ATELIER_KEY);
 
-    localStorage.setItem(this.CURRENT_M1_KEY, JSON.stringify(0));
-    localStorage.setItem(this.RESULT_KEY, JSON.stringify([]));
-    localStorage.setItem(this.M1_ARRAY_KEY, JSON.stringify(M1List));
-    localStorage.setItem(this.M2_ARRAY_KEY, JSON.stringify(M2List));
-    localStorage.setItem(this.FAMILLE_ARRAY_KEY, JSON.stringify(FamilleList));
-    localStorage.setItem(this.GAME_STATUS_KEY, JSON.stringify(0));
-  }
+    localStorage.setItem(AppSettings.CURRENT_M1_KEY, JSON.stringify(0));
+    localStorage.setItem(AppSettings.CURRENT_M2_KEY, JSON.stringify(0));
+    localStorage.setItem(AppSettings.ATELIER_KEY, JSON.stringify([]));
+    localStorage.setItem(AppSettings.M1_ARRAY_KEY, JSON.stringify(M1List));
+    localStorage.setItem(AppSettings.M2_ARRAY_KEY, JSON.stringify(M2List));
+    localStorage.setItem(AppSettings.FAMILY_ARRAY_KEY, JSON.stringify(FamilleList));
+    localStorage.setItem(AppSettings.GAME_STATUS_KEY, JSON.stringify(0));
 
-  public updateResultArray(m1Id : string, m2Id : string) : void {
+    let listBuffer = [];
+    M1List.forEach(item => {
+      listBuffer.push(item.id);
+    })
+    localStorage.setItem(AppSettings.M1BUFFER_ARRAY_KEY, JSON.stringify(listBuffer));
   }
 
 }
