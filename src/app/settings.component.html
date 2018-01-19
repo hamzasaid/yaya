@@ -39,6 +39,10 @@
                 <mat-header-cell *matHeaderCellDef> {{ "sexe" | uppercase }} </mat-header-cell>
                 <mat-cell *matCellDef="let row"> <span class="capitalize">{{ row.sexe | sexeToString }} </span> </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM1Columns[3] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "avatar" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.avatar }} </mat-cell>
+            </ng-container>
             <mat-header-row *matHeaderRowDef="displayedEtudiantM1Columns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedEtudiantM1Columns"></mat-row>
         </mat-table>
@@ -65,6 +69,10 @@
             <ng-container matColumnDef="{{ displayedEtudiantM2Columns[4] }}">
                 <mat-header-cell *matHeaderCellDef> {{ "sexe" | uppercase }} </mat-header-cell>
                 <mat-cell *matCellDef="let row"> <span class="capitalize">{{ row.sexe | sexeToString }} </span> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="{{ displayedEtudiantM2Columns[5] }}">
+                <mat-header-cell *matHeaderCellDef> {{ "avatar" | uppercase }} </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{ row.avatar }} </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedEtudiantM2Columns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedEtudiantM2Columns"></mat-row>

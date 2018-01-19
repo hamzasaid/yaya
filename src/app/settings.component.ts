@@ -17,10 +17,10 @@ export class SettingsComponent implements OnInit {
 	private displayedFamilleColumns = ['id','nom', 'couleur'];
   
 	etudiantM1DataSource: MatTableDataSource<EtudiantM1>;
-	private displayedEtudiantM1Columns = ['id','nom', 'sexe'];
+	private displayedEtudiantM1Columns = ['id','nom', 'sexe', 'avatar'];
   
 	etudiantM2DataSource: MatTableDataSource<EtudiantM2>;
-	private displayedEtudiantM2Columns = ['id','nom', 'atelier', 'famille', 'sexe'];
+	private displayedEtudiantM2Columns = ['id','nom', 'atelier', 'famille', 'sexe', 'avatar'];
   
   constructor(
       private gameService: GameService,

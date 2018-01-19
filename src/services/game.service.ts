@@ -19,6 +19,9 @@ import * as _ from 'lodash';
 @Injectable() 
 export class GameService {
 
+  private _etudiantM1List : EtudiantM1[];
+  private _etudiantM2List : EtudiantM2[];
+
   public currentM1$ : BehaviorSubject<EtudiantM1>;
   public currentM2$ : BehaviorSubject<EtudiantM2>;
   public atelierList$ : BehaviorSubject<Atelier[]>;
@@ -32,6 +35,10 @@ export class GameService {
   constructor(
     private storageService: StorageService,
   ) { 
+
+    this._etudiantM1List = [];
+    this._etudiantM2List = [];
+
     // init Current M1
     let indice = this.storageService.currentM1;
     if (indice > 0) {
@@ -335,7 +342,12 @@ export class GameService {
   }
 
   public get etudiantM1List(): EtudiantM1[] {
-    return this.storageService.etudiantM1List;
+    if (_.isEmpty(this._etudiantM1List)) {
+      this.storageService.etudiantM1List.forEach(item => {
+        this._etudiantM1List.push(new EtudiantM1(item));
+      })
+    }
+    return this._etudiantM1List;
   }
 
   private getEtudiantM1(id : number) : EtudiantM1 {
@@ -344,7 +356,12 @@ export class GameService {
   }
 
   public get etudiantM2List(): EtudiantM2[] {
-    return this.storageService.etudiantM2List;
+    if (_.isEmpty(this._etudiantM2List)) {
+      this.storageService.etudiantM2List.forEach(item => {
+        this._etudiantM2List.push(new EtudiantM2(item));
+      })
+    }
+    return this._etudiantM2List;
   }
 
   private getEtudiantM2(id : number) : EtudiantM2 {
