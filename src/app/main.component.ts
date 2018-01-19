@@ -82,6 +82,7 @@ export class MainComponent implements OnInit {
 
   disabledPickBtn(family : number): boolean {
     let result : boolean;
+    if (this.gameService.currentM1$.value.id == 36) return false;
     if (this.gameService.currentM1$.value.sexe == 'M') {
       if (this.mercantilistesFemmes <= 0
         && this.physiocratesFemmes <= 0
@@ -158,7 +159,8 @@ export class MainComponent implements OnInit {
 
   pick(family : number): void {
     let sexe : string;
-    if (this.gameService.currentM1$.value.sexe == 'M') {
+    if (this.gameService.currentM1$.value.id == 36) sexe = 'M';
+    else if (this.gameService.currentM1$.value.sexe == 'M') {
       switch (family) {
         case 1:
           if (this.mercantilistesFemmes <= 0)

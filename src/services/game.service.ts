@@ -117,61 +117,66 @@ export class GameService {
   }
 
   public pickParrain(family: number, sexe: string): void {
-    let list : EtudiantM2[];
-    switch (family) {
-      case 1:
-        list = _.filter(this.mercantilMember$.value, x => x.sexe == sexe);
-        if (list.length == 1) {
-          this.storageService.currentM2 = list[0].id;
-          this.currentM2$.next(list[0]);
-        }
-        else {
-          let indice = this.randomIntFromInterval(1, list.length) - 1;
-        this.storageService.currentM2 = list[indice].id;
-          this.currentM2$.next(list[indice]);
-        }
-        break;
-    
-      case 2:
-        list = _.filter(this.physiocratMember$.value, x => x.sexe == sexe);
-        if (list.length == 1) {
-          this.storageService.currentM2 = list[0].id;
-          this.currentM2$.next(list[0]);
-        }
-        else {
-          let indice = this.randomIntFromInterval(1, list.length) - 1;
-        this.storageService.currentM2 = list[indice].id;
-          this.currentM2$.next(list[indice]);
-        }
-        break;
-    
-      case 3:
-        list = _.filter(this.classiqMember$.value, x => x.sexe == sexe);
-        if (list.length == 1) {
-          this.storageService.currentM2 = list[0].id;
-          this.currentM2$.next(list[0]);
-        }
-        else {
-          let indice = this.randomIntFromInterval(1, list.length) - 1;
-        this.storageService.currentM2 = list[indice].id;
-          this.currentM2$.next(list[indice]);
-        }
-        break;
-    
-      case 4:
-        list = _.filter(this.keynesienMember$.value, x => x.sexe == sexe);
-        if (list.length == 1) {
-          this.storageService.currentM2 = list[0].id;
-          this.currentM2$.next(list[0]);
-        }
-        else {
-          let indice = this.randomIntFromInterval(1, list.length) - 1;
-        this.storageService.currentM2 = list[indice].id;
-          this.currentM2$.next(list[indice]);
-        }
-        break;
+    if (this.currentM1$.value.id == 36) {
+      this.storageService.currentM2 = 16;
+      this.currentM2$.next(this.getEtudiantM2(16));
     }
-
+    else {
+      let list : EtudiantM2[];
+      switch (family) {
+        case 1:
+          list = _.filter(this.mercantilMember$.value, x => x.sexe == sexe);
+          if (list.length == 1) {
+            this.storageService.currentM2 = list[0].id;
+            this.currentM2$.next(list[0]);
+          }
+          else {
+            let indice = this.randomIntFromInterval(1, list.length) - 1;
+          this.storageService.currentM2 = list[indice].id;
+            this.currentM2$.next(list[indice]);
+          }
+          break;
+      
+        case 2:
+          list = _.filter(this.physiocratMember$.value, x => x.sexe == sexe);
+          if (list.length == 1) {
+            this.storageService.currentM2 = list[0].id;
+            this.currentM2$.next(list[0]);
+          }
+          else {
+            let indice = this.randomIntFromInterval(1, list.length) - 1;
+          this.storageService.currentM2 = list[indice].id;
+            this.currentM2$.next(list[indice]);
+          }
+          break;
+      
+        case 3:
+          list = _.filter(this.classiqMember$.value, x => x.sexe == sexe);
+          if (list.length == 1) {
+            this.storageService.currentM2 = list[0].id;
+            this.currentM2$.next(list[0]);
+          }
+          else {
+            let indice = this.randomIntFromInterval(1, list.length) - 1;
+          this.storageService.currentM2 = list[indice].id;
+            this.currentM2$.next(list[indice]);
+          }
+          break;
+      
+        case 4:
+          list = _.filter(this.keynesienMember$.value, x => x.sexe == sexe);
+          if (list.length == 1) {
+            this.storageService.currentM2 = list[0].id;
+            this.currentM2$.next(list[0]);
+          }
+          else {
+            let indice = this.randomIntFromInterval(1, list.length) - 1;
+          this.storageService.currentM2 = list[indice].id;
+            this.currentM2$.next(list[indice]);
+          }
+          break;
+      }
+    }
   }
 
   public confirmCouple(): boolean {
@@ -286,27 +291,29 @@ export class GameService {
     let keynesien : EtudiantM2[] = [];
 
     this.etudiantM2List.forEach(item => {
-      switch (item.famille) {
-        case 1:
-          mercantil.push(item);
-          break;
-      
-        case 2:
-          physiocrat.push(item);
-          break;
-      
-        case 3:
-          classiq.push(item);
-          break;
-      
-        case 4:
-          keynesien.push(item);
-          break;
+      if (item.id != 16) {
+        switch (item.famille) {
+          case 1:
+            mercantil.push(item);
+            break;
+        
+          case 2:
+            physiocrat.push(item);
+            break;
+        
+          case 3:
+            classiq.push(item);
+            break;
+        
+          case 4:
+            keynesien.push(item);
+            break;
+        }
       }
     });
 
     this.atelierList$.value.forEach(item => {
-      if (item.filleuls.length == this.gameStatus$.value) {
+      if (item.parrain.id != 16 && item.filleuls.length == this.gameStatus$.value) {
         switch (item.parrain.famille) {
           case 1:
             _.remove(mercantil, x => x.id == item.parrain.id);
