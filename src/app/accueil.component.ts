@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
 import { GameService } from '../services/game.service';
+import { NewGameDialog } from './new-game-dialog.component';
 
 
 @Component({
@@ -29,7 +32,8 @@ export class AccueilComponent {
 
   constructor(
     private router: Router, 
-    private gameService: GameService
+    private gameService: GameService,
+    private dialog: MatDialog,
   ) {}
   
   canContinueGame(): boolean {
@@ -41,10 +45,19 @@ export class AccueilComponent {
   }
 
   lancerPartie(poursuivre: boolean): void {
-    if (!poursuivre) {
-      this.gameService.newGame();
+    if (!poursuivre && this.gameService.gameStatus$.value > 0) {
+      let dialogRef = this.dialog.open(NewGameDialog);
+  
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.gameService.newGame();
+          this.router.navigate(['/', 'next']);
+        }
+      });
     }
-    this.router.navigate(['/', 'next']);
+    else {
+      this.router.navigate(['/', 'next']);      
+    }
   }
 
 }

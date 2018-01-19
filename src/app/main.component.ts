@@ -12,53 +12,55 @@ import * as _ from 'lodash';
 @Component({
   selector: 'app-main',
   template: `
-  <div class="full-height" fxLayout="column" fxLayoutAlign="space-between stretch">
-    <div class="main-header" fxLayout="row" fxLayoutAlign="space-around center" fxFlex="20">
-      <button mat-raised-button routerLink="/" color="primary">
-        <mat-icon>arrow_back</mat-icon> Retour accueil
-      </button>
-      <span>{{ (gameService.currentM1$ | async).nom }} - {{ (gameService.currentM1$ | async).sexe | sexeToString }}</span>
+  <div class="full-height space-body" fxLayout="column" fxLayoutAlign="stretch">
+    <div class="menu-toolbar" fxFlex="10" fxLayout="row" fxLayoutAlign="space-between center">
+        <button fxFlexOffset="2" mat-raised-button routerLink="/">
+          <mat-icon>arrow_back</mat-icon>
+          Retour à l'accueil
+        </button>
+        <div>
+        <h2 class="mat-h2" style="margin:0">{{ numberPlayed }} / {{ totalPlayers }}</h2>
+        </div>
+        <div class="push-right avatar-toolbar mat-typography">
+          <span>{{ (gameService.currentM1$ | async).nom }}</span>
+          <img style="vertical-align:middle" [src]="(gameService.currentM1$ | async).avatar" width="40px">
+        </div>
     </div>
+
     <div *ngIf="(gameService.currentM2$ | async).id <= 0" class="main-body" fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex>
-      <div class="pick-family" fxLayout="column" fxLayoutAlign="space-between stretch">
-        <button class="btn-family family-yellow" disabled="{{ disabledPickBtn(1) }}" (click)="pick(1)" mat-raised-button>MERCANTILISTES</button>
-        <p>Total prs: {{ mercantilistesTotal }}</p>
-        <p>Total hommes: {{ mercantilistesHommes }}</p>
-        <p>Total femmes: {{ mercantilistesFemmes }}</p>
-      </div>
-      <div class="pick-family" fxLayout="column" fxLayoutAlign="space-between stretch">
-        <button class="btn-family family-green" disabled="{{ disabledPickBtn(2) }}" (click)="pick(2)" mat-raised-button>PHYSIOCRATES</button>
-        <p>Total prs: {{ physiocratesTotal  }}</p>
-        <p>Total hommes: {{ physiocratesHommes }}</p>
-        <p>Total femmes: {{ physiocratesFemmes }}</p>
-      </div>
-      <div class="pick-family" fxLayout="column" fxLayoutAlign="space-between stretch">
-        <button class="btn-family family-blue" disabled="{{ disabledPickBtn(3) }}" (click)="pick(3)" mat-raised-button>CLASSIQUES</button>
-        <p>Total prs: {{ classiquesTotal }}</p>
-        <p>Total hommes: {{ classiquesHommes }}</p>
-        <p>Total femmes: {{ classiquesFemmes }}</p>
-      </div>
-      <div class="pick-family" fxLayout="column" fxLayoutAlign="space-between stretch">
-        <button class="btn-family family-red" disabled="{{ disabledPickBtn(4) }}" (click)="pick(4)" mat-raised-button>KEYNESIENS</button>
-        <p>Total prs: {{ keynesiensTotal }}</p>
-        <p>Total hommes: {{ keynesiensHommes }}</p>
-        <p>Total femmes: {{ keynesiensFemmes }}</p>
+      <div class="pick-family" *ngFor="let family of familyList" fxLayout="column" fxLayoutAlign="stretch">
+        <button class="btn-family" [ngClass]="{'light-background' : family.id == 1}" [style.background-color]="getStyle(family)" disabled="{{ disabledPickBtn(family.id) }}" (click)="pick(family.id)" mat-raised-button>{{ family.nom }}</button>
       </div>
     </div>
-    <div *ngIf="(gameService.currentM2$ | async).id > 0" class="main-body" fxLayout="row" fxLayoutAlign="space-evenly center" fxFlex>
-      <p>{{ (gameService.currentM2$ | async).atelier }}</p>
-      <p>{{ (gameService.currentM2$ | async).nom }}</p>
-      <p>{{ (gameService.currentM1$ | async).nom }}</p>
-      <button mat-raised-button (click)="confirmer()">Confirmer</button>
+
+    <div *ngIf="(gameService.currentM2$ | async).id > 0" class="main-body" fxLayout="column" fxLayoutAlign="center" fxFlex>
+      <div class="nom-atelier" fxLayout="row" fxLayoutAlign="center center">
+        <h1 class="mat-h1">Atelier : {{ (gameService.currentM2$ | async).atelier }}</h1>
+      </div>
+      <div class="photos-versus" fxLayout="row" fxLayoutAlign="center center">
+        <mat-card class="pick-card">
+          <mat-card-header>
+          <mat-card-title>{{ (gameService.currentM2$ | async).nom }}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image [src]="(gameService.currentM2$ | async).avatar" alt="avatar">
+        </mat-card>
+        <mat-card class="pick-card">
+          <mat-card-header>
+          <mat-card-title>{{ (gameService.currentM1$ | async).nom }}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image [src]="(gameService.currentM1$ | async).avatar" alt="avatar">
+        </mat-card>
+      </div>
+      <div class="action" fxLayout="row" fxLayoutAlign="center strech">
+        <button style="width:700px;" mat-raised-button color="primary" (click)="confirmer()">Confirmer</button>
+      </div>
     </div>
   </div>
   `,
   styles: [`
-    .btn-family { height: 90px; color: white}
-    .family-blue { background-color: blue }
-    .family-yellow { background-color: yellow; color: gray }
-    .family-green { background-color: green }
-    .family-red { background-color: red }
+    .btn-family { height: 230px; width: 230px; color: white}
+    .light-background { color: black }
+    .pick-card { width: 300px; margin: 10px; }
   `]
 })
 export class MainComponent implements OnInit {
@@ -72,6 +74,10 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.familyList = this.gameService.shuffleFamilyList;
+  }
+
+  getStyle(family: Famille): string {
+    return this.disabledPickBtn(family.id) ? 'none' : family.couleur;
   }
 
   disabledPickBtn(family : number): boolean {
@@ -223,6 +229,14 @@ export class MainComponent implements OnInit {
       this.router.navigate(['/', 'next']);
     else
       this.router.navigate(['/']);
+  }
+
+  private get totalPlayers(): number {
+    return this.gameService.etudiantM1List.length;
+  }
+
+  private get numberPlayed(): number {
+    return this.gameService.etudiantM1List.length - this.gameService.bufferList$.value.length;
   }
 
   private get mercantilistesTotal(): number {

@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Routes } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { StorageService } from '../services/storage.service';
 import { GameService } from '../services/game.service';
@@ -17,7 +20,10 @@ import { MainComponent } from './main.component';
 import { NextPlayerComponent } from './next-player.component';
 import { SettingsComponent } from './settings.component';
 import { ResultComponent } from './result.component';
+import { ResultViewListComponent } from './result-view-list.component';
+import { ResultViewBlocComponent } from './result-view-bloc.component';
 import { PageNotFoundComponent } from './page-not-found.component';
+import { NewGameDialog } from './new-game-dialog.component';
 import { FamilyToStringPipe } from './family-to-string.pipe';
 import { SexeToStringPipe } from './sexe-to-string.pipe';
 
@@ -53,11 +59,14 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     PageNotFoundComponent,
+    NewGameDialog,
     AppComponent,
     AccueilComponent,
     NextPlayerComponent,
     MainComponent,
     ResultComponent,
+    ResultViewListComponent,
+    ResultViewBlocComponent,
     SettingsComponent,
     FamilyToStringPipe,
     SexeToStringPipe,
@@ -73,9 +82,13 @@ const appRoutes: Routes = [
     MatListModule,
     MatButtonModule,
     MatTableModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule,
+    MatDialogModule,
+    MatButtonToggleModule
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ], 
+  entryComponents: [ NewGameDialog ],
   providers: [ StorageService, GameService ],
   bootstrap: [AppComponent]
 })

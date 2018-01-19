@@ -189,6 +189,7 @@ export class GameService {
 
     atelier.filleuls.push(this.currentM1$.value);
     ateliers.push(atelier);
+    ateliers = _.sortBy(ateliers,[x => x.parrain.atelier]);
 
     this.storageService.atelierList = ateliers;
     this.atelierList$.next(ateliers);
@@ -337,7 +338,11 @@ export class GameService {
   }
 
   public get shuffleFamilyList() : Famille[] {
-    let list = this.familyList;
+    let listIndice = _.shuffle([0,1,2,3]);
+    let list = [];
+    listIndice.forEach(element => {
+      list.push(this.familyList[element]);
+    });
     return list;
   }
 
@@ -352,7 +357,7 @@ export class GameService {
 
   private getEtudiantM1(id : number) : EtudiantM1 {
     let list = this.etudiantM1List;
-    return _.find(list, { 'id': id});
+    return new EtudiantM1(_.find(list, { 'id': id}));
   }
 
   public get etudiantM2List(): EtudiantM2[] {
@@ -366,7 +371,7 @@ export class GameService {
 
   private getEtudiantM2(id : number) : EtudiantM2 {
     let list = this.etudiantM2List;
-    return _.find(list, { 'id': id});
+    return new EtudiantM2(_.find(list, { 'id': id}));
   }
 
   private randomIntFromInterval(min : number, max : number): number {

@@ -15,6 +15,6 @@ export class EtudiantM1 {
     this.sexe = sexe;
   }
 
-  public get avatar(): string { return 'M1' + ('00' + this.id).slice(-3) + this.sexe; }
+  public get avatar(): string { return 'assets/img/M1' + ('00' + this.id).slice(-3) + this.sexe + '.jpg'; }
 
 }

@@ -21,6 +21,6 @@ export class EtudiantM2 {
     this.famille = famille
   }
 
-  public get avatar(): string { return 'M2' + ('00' + this.id).slice(-3) + this.sexe; }
+  public get avatar(): string { return 'assets/img/M2' + ('00' + this.id).slice(-3) + this.sexe + '.jpg'; }
 
 }
